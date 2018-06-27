@@ -1,0 +1,15 @@
+{
+  "name": "monogochat",
+  "version": "1.0.0",
+  "description": "Chat webapp using sockets and mongo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.0.10",
+    "socket.io": "^2.1.1"
+  }
+}

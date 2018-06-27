@@ -27,6 +27,7 @@
 
             </div>
           </div>
+          <div id="feedback"></div>
           <br>
           <textarea id="textarea" class="form-control" placeholder="Enter message..."></textarea>
         </div>
@@ -47,6 +48,7 @@
       var username = element('username');
       var clearBtn = element('clear');
       var textarea = element('textarea');
+      var feedback = element('feedback');
 
       //set default status (empty by default)
       var statusDefault = status.textContent;
@@ -74,11 +76,13 @@
             for(var x = 0; x <  data.length; x++){
               //build out message div
               var message = document.createElement('div');
-                            message.setAttribute('class', 'chat-message');
-                            message.textContent = data[x].name + ": " + data[x].message;
-                            messages.appendChild(message);
-                            messages.insertBefore(message, messages.firstChild);
+              message.setAttribute('class', 'chat-message');
+              message.innerHTML = '<span style="color:navy;"><strong>' + data[x].name + '</strong></span>' +":&nbsp&nbsp&nbsp" + data[x].message;
+              messages.appendChild(message);
+              messages.insertBefore(message, messages.firstChild);
             }
+            feedback.innerHTML="";
+            textarea.value='';
           }
         });
 
@@ -105,6 +109,17 @@
             event.preventDefault();
             // textarea.val('');
           }
+        });
+
+        textarea.addEventListener('keypress', function(){
+          socket.emit('typing',username.value);
+        });
+
+        socket.on('typing', function(data){
+            if(data != ''){
+              console.log("in feedback");
+              feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>';
+            }
         });
 
 
